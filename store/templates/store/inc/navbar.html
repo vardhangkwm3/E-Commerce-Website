@@ -1,0 +1,57 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-success shadow">
+  <div class="container">
+    <img src="{% static '/images/logo.png' %}" width="40px" height="40px" /><a class="navbar-brand" href="#"><b> SmartAdShop</b></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    
+    <div class="search-bar">
+      <form action="{% url 'searchproduct' %}" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="search" required class="form-control" name="productsearch" id="srchprdct" placeholder="Search-Products">
+          <button type="submit" class="input-group-text"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %} active {% endif %}" aria-current="page" href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'collections' %} active {% endif %}" href="{% url 'collections' %}"><i class="fa fa-folder-open"></i> Collections</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'cart' %} active {% endif %}" aria-current="page" href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'wishlist' %} active {% endif %}" aria-current="page" href="{% url 'wishlist' %}"><i class="fa fa-heart" style="color: red;"></i> WishList</a>
+        </li>
+        {% if request.user.is_authenticated %}
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {{ request.user }} <i class="fa fa-user"></i>
+                  </a>
+                  <ul class="dropdown-menu" style="background-color: grey;">
+                      <li><a class="dropdown-item" href="{% url 'myorders' %}">My Orders</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="logout">Logout</a></li>
+                  </ul>
+              </li>
+        {% else %}
+          <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'loginpage' %} active {% endif %}" href="{% url 'loginpage' %}">Login</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'register' %} active {% endif %}" href="{% url 'register' %}">Sign Up</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>

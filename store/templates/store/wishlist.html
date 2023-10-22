@@ -1,0 +1,53 @@
+{%  extends 'store/layouts/main.html' %}
+
+{% block content %}
+
+<div class="py-3 bg-secondary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}"> Home /</a>
+        <a class="text-white" href="{% url 'collections' %}"> WishList </a>
+    </div>
+</div>
+
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-body wishdata">
+                        {% if wishitems %}
+                            {% for item in wishitems %}
+                                <div class="row product_data">
+                                    <div class="col-md-1 my-auto">
+                                        <img src="{{item.product.prdct_image.url}}" height="70px" width="70px" alt="Image here"/>
+                                    </div>
+                                    <div class="col-md-4 my-auto">
+                                        <h5>{{item.product.name}}</h5>
+                                    </div>
+                                    <div class="col-md-2 my-auto">
+                                        <h5><b>Rs.</b> {{item.product.selling_price | stringformat:'d'}}</h5>
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <input type="hidden" class="prod_id" value="{{item.product.id}}">
+                                        {% csrf_token %}
+                                        <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="btn btn-warning text-dark">
+                                            <i class="fa fa-eye"></i> View Product
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2 my-auto">
+                                        <button class="btn btn-danger delete-wishlist-item"><i class="fa fa-trash"></i> Remove</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <h3>Your WishList is Empty</h3>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

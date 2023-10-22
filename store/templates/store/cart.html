@@ -1,0 +1,60 @@
+{%  extends 'store/layouts/main.html' %}
+
+{% block content %}
+
+<div class="py-3 bg-primary">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}"> Home /</a>
+        <a class="text-white" href="{% url 'cart' %}"> Cart </a>
+    </div>
+</div>
+
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-body cartdata">
+                        {% if cart %}
+                            {% for item in cart  %}
+                                <div class="row product_data">
+                                    <div class="col-md-1 my-auto">
+                                        <img src="{{item.product.prdct_image.url}}" height="70px" width="70px" alt="Image here"/>
+                                    </div>
+                                    <div class="col-md-4 my-auto">
+                                        <h5>{{item.product.name}}</h5>
+                                    </div>
+                                    <div class="col-md-2 my-auto">
+                                        <h5><b>Rs.</b> {{item.product.selling_price | stringformat:'d'}}</h5>
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <input type="hidden" class="prod_id" value="{{item.product.id}}">
+                                        {% csrf_token %}
+                                        {% if item.product.qty >= item.product_qty %}
+                                            <label for="Quantity"><b>Quantity</b></label>
+                                            <div class=" text-center mb-3" style="width: 60px;">
+                                                <label type="text" name="quantity" class="form-control qty-input text-center"><strong>{{item.product_qty}}</strong></label>
+                                            </div>
+                                        {% else %}
+                                            <label class="badge bg-warning text-dark">Not available</label>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-2 my-auto">
+                                        <button class="btn btn-danger delete-cart-item"><i class="fa fa-trash"></i> Remove</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                            <a href="{% url 'checkout' %}" class="btn btn-outline-success cbtn" style="margin-left: 45%;"> Checkout </a>
+                        {% else %}
+                            <h3>Your Cart is Empty</h3>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+

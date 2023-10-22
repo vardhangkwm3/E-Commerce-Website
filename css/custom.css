@@ -1,0 +1,19 @@
+.checkoutform label{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.checkoutform input{
+    font-size: 14px;
+}
+
+.Wchat{
+    position: fixed;
+    bottom: 03% !important;
+    left: 03% !important;
+}
+
+.search-bar{
+    margin-left: 2%;
+    width: 40% !important;
+}
